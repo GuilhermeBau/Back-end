@@ -1,0 +1,74 @@
+### 1. Criar um novo usuário (Guilherme Bau)
+POST http://localhost:8080/api/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Guilherme Bau",
+  "username": "guilhermeb"
+}
+
+### 2. Criar um novo usuário (Gabriel Gelde)
+POST http://localhost:8080/api/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Gabriel Gelde",
+  "username": "gabrielg"
+}
+
+### 3. Listar todos os usuários (para confirmar a criação)
+GET http://localhost:8080/api/usuarios
+
+
+### 4. Criar um post para o Guilherme (usuário com ID 1)
+POST http://localhost:8080/api/posts
+Content-Type: application/json
+
+{
+  "conteudo": "Post inicial do Guilherme para o trabalho de Back-end!",
+  "autor": {
+    "id": 1
+  }
+}
+
+### 5. Criar um post para o Gabriel (usuário com ID 2)
+POST http://localhost:8080/api/posts
+Content-Type: application/json
+
+{
+  "conteudo": "Testando a API de posts. Tudo funcionando!",
+  "autor": {
+    "id": 2
+  }
+}
+
+### 6. Gabriel (ID 2) curte o post do Guilherme (ID 1)
+POST http://localhost:8080/api/posts/1/curtir/2
+
+
+### 7. Guilherme (ID 1) também curte o próprio post (ID 1)
+POST http://localhost:8080/api/posts/1/curtir/1
+
+
+### 8. TENTATIVA DE CURTIR DE NOVO (Deve dar erro 400 - Bad Request!)
+# Este teste garante que o Gabriel não pode curtir o mesmo post duas vezes.
+POST http://localhost:8080/api/posts/1/curtir/2
+
+
+### 9. VERIFICAR FEED DE RELEVÂNCIA
+# O post do Guilherme (ID 1), com 2 curtidas, deve aparecer primeiro.
+GET http://localhost:8080/api/posts/relevancia
+
+
+### 10. VERIFICAR FEED CRONOLÓGICO
+# O post do Gabriel (ID 2), que foi o último a ser criado, deve aparecer primeiro.
+GET http://localhost:8080/api/posts/cronologico
+
+
+### 11. Gabriel (ID 2) remove sua curtida do post do Guilherme (ID 1)
+DELETE http://localhost:8080/api/posts/1/curtir/2
+
+
+### 12. VERIFICAR FEED DE RELEVÂNCIA NOVAMENTE
+# Agora o post do Guilherme deve ter apenas 1 curtida.
+GET http://localhost:8080/api/posts/relevancia
